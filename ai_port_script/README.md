@@ -1,41 +1,29 @@
 # honeypot_survey
 
-Herramienta de **reconocimiento inicial** para identificar servicios HTTP/HTTPS
-en un entorno de CTF y separar a primera vista tres categorías:
+Script de reconocimiento para CTF. Sondea puertos HTTP/HTTPS y ayuda a
+distinguir entre **servicio real**, **honeypot simple** y **honeypot con IA**.
 
-- servicios reales
-- honeypots simples (respuesta estática)
-- posibles honeypots con IA (LLM detrás)
+## Qué hace
 
-No clasifica automáticamente. **Recoge evidencia objetiva** (códigos HTTP,
-latencias, variedad de respuestas y frases típicas de modelos de lenguaje)
-y la presenta en una tabla para triaje manual.
+Por cada puerto lanza 6 peticiones: baseline, query aleatoria, prompt
+injection, jailbreak, pregunta de identidad y 404. Mide códigos HTTP,
+latencia, número de cuerpos distintos y frases típicas de LLM.
 
----
+Devuelve una tabla para triaje manual:
 
-## Motivación
+- `nBodies = 1` y todo 200 → honeypot simple
+- Códigos coherentes (200/400/404/405) y `nBodies ≥ 3` → servicio real
+- Frase de LLM + latencia > 1.5 s → honeypot con IA
 
-En un CTF con servicios mezclados (reales + honeypots de varios tipos), el
-primer paso es descartar páginas muertas y detectar comportamiento anómalo.
-Un honeypot con IA se delata por tres cosas que esta herramienta mide:
+## Para qué
 
-1. **Latencia alta y variable** (500 ms – 5 s), porque hay un LLM generando.
-2. **Respuestas distintas a preguntas idénticas o ambiguas**, porque el
-   modelo no es determinista.
-3. **Frases características de LLM** ("as a language model", "soy un
-   modelo", "no puedo ayudarte", "system prompt"…).
+Acelera el reconocimiento inicial. **No clasifica**, solo da evidencia
+objetiva para que el analista decida.
 
-Un honeypot simple, en cambio, se delata por lo contrario: **mismo cuerpo y
-mismos headers a cualquier input**, latencia plana y códigos HTTP siempre
-iguales.
-
----
-
-## Requisitos
-
-- Python 3.8+
-- `requests`
-- `urllib3`
+## Uso
 
 ```bash
 pip install requests urllib3
+python3 honeypot_survey.py           # todos los puertos
+python3 honeypot_survey.py -w 6      # más concurrencia
+python3 honeypot_survey.py -p 20749,54181
