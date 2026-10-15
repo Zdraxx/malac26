@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: recon-ctf
+Version: 0.1.0
+Summary: Local evidence collection backend for CTF service reconnaissance
+Requires-Python: >=3.11
+Requires-Dist: fastapi>=0.115
+Requires-Dist: httpx>=0.27
+Requires-Dist: loguru>=0.7
+Requires-Dist: pydantic>=2.8
+Requires-Dist: sqlalchemy>=2.0
+Requires-Dist: uvicorn[standard]>=0.30
+Provides-Extra: test
+Requires-Dist: pytest>=8.3; extra == "test"
+Requires-Dist: pytest-asyncio>=0.24; extra == "test"
+Requires-Dist: respx>=0.21; extra == "test"

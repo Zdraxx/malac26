@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Recon CTF</title>
+    <link rel="stylesheet" href="/ui/styles.css" />
+  </head>
+  <body>
+    <div class="aurora aurora-one"></div><div class="aurora aurora-two"></div>
+    <main class="shell">
+      <header class="topbar">
+        <div><p class="eyebrow">EVIDENCE-FIRST SERVICE RECON</p><h1>Recon <span>CTF</span></h1></div>
+        <a class="api-link" href="/docs" target="_blank">API Docs ↗</a>
+      </header>
+      <section class="hero card">
+        <div><p class="eyebrow">NUEVO ESCANEO</p><h2>Recolecta señales. Decide tú.</h2><p class="muted">Versiones, headers, latencias y pistas sin clasificar automáticamente el objetivo.</p></div>
+        <form id="scan-form" class="scan-form">
+          <label>Target<input id="target" value="127.0.0.1" required /></label>
+          <label>Puertos<input id="ports" value="8000,80,443" required /></label>
+          <label>Concurrencia<input id="concurrency" type="number" min="1" max="100" value="20" /></label>
+          <button type="submit">Escanear <span>→</span></button>
+        </form>
+        <p id="message" class="message"></p>
+      </section>
+      <section class="stats">
+        <div class="stat card"><span>PUERTOS ABIERTOS</span><strong id="open-count">0</strong></div>
+        <div class="stat card"><span>REQUESTS</span><strong id="request-count">0</strong></div>
+        <div class="stat card"><span>PISTAS</span><strong id="clue-count">0</strong></div>
+        <div class="stat card"><span>OBSERVACIONES</span><strong id="observation-count">0</strong></div>
+      </section>
+      <section class="workspace">
+        <div class="card table-card"><div class="section-head"><div><p class="eyebrow">LIVE SURFACE</p><h2>Puertos detectados</h2></div><span id="scan-status" class="pill">Listo</span></div>
+          <div class="table-wrap"><table><thead><tr><th>Puerto</th><th>Estado</th><th>Familia</th><th>Latencia</th><th>Acciones</th></tr></thead><tbody id="ports-body"><tr><td colspan="5" class="empty">Lanza un escaneo para empezar.</td></tr></tbody></table></div>
+        </div>
+        <aside class="card detail-card"><div class="section-head"><div><p class="eyebrow">EVIDENCIA</p><h2 id="detail-title">Selecciona un puerto</h2></div></div><div id="detail"><p class="muted">Aquí aparecerán requests, clues y observations.</p></div></aside>
+      </section>
+    </main>
+    <script src="/ui/app.js"></script>
+  </body>
+</html>
